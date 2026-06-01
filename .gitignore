@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+```ini
+# PhpStorm / JetBrains
+.idea/
+*.iml
+*.iws
+out/
