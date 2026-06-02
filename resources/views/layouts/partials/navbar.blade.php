@@ -19,9 +19,16 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="qrDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-square-rss me-1"></i> Generadores QR
+                        <i class="fa-solid fa-qrcode me-1"></i> Generadores QR
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
+                        <li>
+                            <a class="dropdown-item text-primary fw-bold" href="{{ route('tools.qr') }}">
+                                <i class="fa-solid fa-sliders me-2"></i> Panel Generador
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-link me-2"></i> Enlace / URL</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-font me-2"></i> Texto Plano</a></li>
                         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-id-card me-2"></i> Tarjeta V-Card</a></li>
