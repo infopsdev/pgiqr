@@ -4,10 +4,10 @@
             <i class="fa-solid fa-qrcode fs-5 text-danger"></i>
             <span class="fs-5 fw-bold">PGIQR</span>
         </div>
-        <p class="small mb-0 text-muted">
+        <p class="small mb-1" style="color: #cbd5e1;">
             &copy; {{ date('Y') }} Plataforma de Gestión de Identidad y Operaciones QR. Todos los derechos reservados.
         </p>
-        <p class="x-small text-muted" style="font-size: 0.75rem;">
+        <p class="mb-0" style="font-size: 0.75rem; color: #94a3b8;">
             Desarrollado de forma institucional y privada para entornos de control interno.
         </p>
     </div>
