@@ -1,0 +1,659 @@
+/* ============================================================================
+   🌟 MI LIBRO FAVORITO — CSS PREMIUM
+   Mezcla: Editorial + Revista + Minimalista para Ads
+   Optimizado para rendimiento y estética moderna
+============================================================================ */
+
+/* -----------------------------------------------------
+   🎨 VARIABLES GLOBALES
+----------------------------------------------------- */
+:root {
+    --mlf-primary: #7C3AED;
+    /* Morado editorial */
+    --mlf-primary-dark: #5B21B6;
+    --mlf-accent: #3f37c9;
+    /* Azul revista */
+    --mlf-text: #222;
+    /* Más moderno y claro */
+    --mlf-text-light: #555;
+    --mlf-bg-light: #F8F6FF;
+    /* Fondo suave */
+    --mlf-radius: 14px;
+    --mlf-shadow: 0 8px 22px rgba(124, 58, 237, 0.08);
+    --mlf-shadow-hover: 0 12px 30px rgba(124, 58, 237, 0.15);
+}
+
+/* -----------------------------------------------------
+   🧍 BODY
+----------------------------------------------------- */
+body {
+    background-color: #ffffff;
+    color: var(--mlf-text);
+    font-family: "Inter", sans-serif;
+    line-height: 1.65;
+}
+
+/* ============================================================
+   🌟 NAVBAR PREMIUM — Mi Libro Favorito
+   Moderno, elegante, animado y optimizado
+   Funcionará sin depender de navbar-light (Bootstrap)
+============================================================ */
+
+/* CONTENEDOR NAVBAR */
+.mlf-navbar {
+    background: #ffffff;
+    border-bottom: 1px solid #eaeaea;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* LOGO / BRAND */
+.mlf-navbar .navbar-brand {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--mlf-primary) !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mlf-navbar .navbar-brand i {
+    color: var(--mlf-primary) !important;
+}
+
+/* ITEMS DEL NAV (CLASES NAV-LINK) */
+.mlf-navbar .nav-link {
+    position: relative;
+    font-weight: 500;
+    padding: 10px 16px !important;
+    color: var(--mlf-text-light) !important;
+    transition: color .25s ease;
+}
+
+/* Línea animada profesional */
+.mlf-navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    width: 0;
+    height: 2px;
+    background: var(--mlf-primary);
+    border-radius: 3px;
+    transition: width .25s ease;
+}
+
+.mlf-navbar .nav-link:hover {
+    color: var(--mlf-primary) !important;
+}
+
+.mlf-navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+/* Íconos dentro del menú */
+.mlf-navbar .nav-link i {
+    color: inherit !important;
+    transition: color .25s ease;
+}
+
+/* ESTADO ACTIVO */
+.mlf-navbar .nav-link.active,
+.mlf-navbar .nav-link:focus {
+    color: var(--mlf-primary) !important;
+}
+
+.mlf-navbar .nav-link.active::after {
+    width: 100%;
+}
+
+/* DROPDOWN */
+.mlf-navbar .dropdown-menu {
+    border-radius: var(--mlf-radius);
+    border: none;
+    padding: 8px 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.mlf-navbar .dropdown-item {
+    padding: 10px 18px;
+    font-weight: 500;
+    color: var(--mlf-text) !important;
+    transition: .2s ease;
+}
+
+.mlf-navbar .dropdown-item:hover {
+    background: var(--mlf-bg-light);
+    color: var(--mlf-primary) !important;
+}
+
+/* BOTONES LOGIN / REGISTER */
+.mlf-navbar .btn-primary,
+.mlf-navbar .btn-outline-primary {
+    border-radius: var(--mlf-radius);
+    font-weight: 600;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+}
+
+/* BOTÓN MÓVIL (ICONO) */
+.mlf-navbar .navbar-toggler {
+    border: none;
+}
+
+.mlf-navbar .navbar-toggler-icon {
+    filter: brightness(0.4);
+}
+
+/* EFECTO 1: Color + Glow Suave en Hover */
+.mlf-navbar .nav-link:hover {
+    color: var(--mlf-primary) !important;
+    text-shadow: 0 0 6px rgba(124, 58, 237, 0.18);
+}
+
+/* EFECTO 2: Iconos con micro-movimiento elegante */
+.mlf-navbar .nav-link i {
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.mlf-navbar .nav-link:hover i {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* EFECTO 3: Subrayado animado más fino y profesional */
+.mlf-navbar .nav-link::after {
+    height: 2px;
+    background: linear-gradient(90deg, var(--mlf-primary), var(--mlf-primary-dark));
+    transition: width .22s ease;
+}
+
+/* EFECTO 4: Fondo suave en hover (muy ligero, tipo portal editorial) */
+.mlf-navbar .nav-item:hover .nav-link {
+    background: rgba(124, 58, 237, 0.04);
+    border-radius: 8px;
+}
+
+/* EFECTO 5: Navbar con sombra suave al hacer scroll */
+.mlf-navbar {
+    transition: box-shadow .25s ease;
+}
+
+.mlf-navbar.navbar-scrolled {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* EFECTO 6: Dropdown más elegante */
+.mlf-navbar .dropdown-menu {
+    animation: dropdownFade .18s ease forwards;
+    transform-origin: top;
+    opacity: 0;
+}
+
+@keyframes dropdownFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Quitar cualquier línea de enlace que aparezca por defecto */
+.mlf-navbar .nav-link,
+.mlf-navbar .nav-link:hover,
+.mlf-navbar .nav-link:focus,
+.mlf-navbar .nav-link:active {
+    text-decoration: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.mlf-navbar .navbar-brand,
+.mlf-navbar .navbar-brand:hover,
+.mlf-navbar .navbar-brand:focus,
+.mlf-navbar .navbar-brand:active {
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* EFECTO 7: Animación de foco en el link activo */
+.mlf-navbar .nav-link.active {
+    text-shadow: 0 0 6px rgba(124, 58, 237, 0.18);
+    background: rgba(124, 58, 237, 0.05);
+    border-radius: 8px;
+}
+/* -----------------------------------------------------
+   🔘 BOTONES
+----------------------------------------------------- */
+.btn-primary {
+    background-color: var(--mlf-primary);
+    border-color: var(--mlf-primary);
+    border-radius: var(--mlf-radius);
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    background-color: var(--mlf-primary-dark);
+    border-color: var(--mlf-primary-dark);
+}
+
+.btn-outline-primary {
+    color: var(--mlf-primary);
+    border-color: var(--mlf-primary);
+    border-radius: var(--mlf-radius);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--mlf-primary);
+    color: #fff;
+}
+
+/* -----------------------------------------------------
+   🖼️ IMÁGENES — EFECTO PRO ZOOM + FADE + LIFT
+----------------------------------------------------- */
+
+/* Contenedor de la imagen */
+.mlf-img {
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+    display: block;
+}
+
+/* Imagen base */
+.mlf-img img {
+    width: 100%;
+    height: auto;
+    transition: transform .45s ease, opacity .35s ease;
+    display: block;
+}
+
+/* Efecto: zoom suave + ligera elevación */
+.mlf-img:hover img {
+    transform: scale(1.07);
+    opacity: 0.92;
+}
+
+/* Sombra suave en el contenedor al hacer hover */
+.mlf-img:hover {
+    box-shadow: 0 8px 22px rgba(124, 58, 237, 0.18);
+    transition: box-shadow .35s ease;
+}
+
+/* ===========================
+   🖼️ Contenedor unificado Home (con efecto MLF)
+   =========================== */
+.mlf-img-container {
+    width: 160px;
+    /* Ajusta según tu diseño */
+    height: 95px;
+    /* Mantén relación 16:9 */
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* Imagen interna con tu efecto original */
+.mlf-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 🔥 Evita espacio blanco */
+    display: block;
+    transition: transform .35s ease, filter .35s ease;
+}
+
+/* 🔍 Mantiene el efecto MLF zoom */
+.mlf-img-container:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.02);
+}
+/* -----------------------------------------------------
+   📄 TITULOS
+----------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800;
+    color: var(--mlf-text);
+}
+
+h1 {
+    font-size: 2rem;
+    border-left: 4px solid var(--mlf-primary);
+    padding-left: 12px;
+    margin-bottom: 1rem;
+}
+
+/* -----------------------------------------------------
+   📦 CARDS EDITORIALES
+----------------------------------------------------- */
+.card {
+    border: none;
+    border-radius: var(--mlf-radius);
+    box-shadow: var(--mlf-shadow);
+    transition: all .25s ease;
+    background-color: #fff;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mlf-shadow-hover);
+}
+
+/* -----------------------------------------------------
+   📌 ENLACES
+----------------------------------------------------- */
+a {
+    text-decoration: none;
+    color: var(--mlf-primary);
+    transition: .2s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* -----------------------------------------------------
+   📚 WIDGETS Y SIDEBAR REVISTA
+----------------------------------------------------- */
+.mlf-feature-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: var(--mlf-radius);
+    box-shadow: var(--mlf-shadow);
+    transition: all .25s ease;
+}
+
+.mlf-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mlf-shadow-hover);
+}
+
+.mlf-category-list a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: var(--mlf-radius);
+    transition: .2s ease;
+    font-weight: 500;
+    color: var(--mlf-text);
+}
+
+.mlf-category-list a:hover {
+    background: var(--mlf-bg-light);
+    color: var(--mlf-primary);
+    transform: translateX(4px);
+}
+
+.mlf-category-list .active-cat a {
+    background: var(--mlf-primary);
+    color: #fff !important;
+}
+
+/* -----------------------------------------------------
+   ⭐ BOOK CARDS (Moderno y Premium)
+----------------------------------------------------- */
+.mlf-book-card {
+    border-radius: var(--mlf-radius);
+    overflow: hidden;
+    background: #fff;
+    box-shadow: var(--mlf-shadow);
+    transition: all .3s ease;
+}
+
+.mlf-book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--mlf-shadow-hover);
+}
+
+.mlf-img-wrapper {
+    height: 280px;
+    overflow: hidden;
+}
+
+.mlf-book-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .35s ease;
+}
+
+.mlf-book-card:hover .mlf-book-img {
+    transform: scale(1.07);
+}
+
+/* -----------------------------------------------------
+   ⭐ RATING MEJORADO (simple, limpio)
+----------------------------------------------------- */
+.mlf-stars i {
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.mlf-stars i.active {
+    color: #FFD700;
+}
+
+/* -----------------------------------------------------
+   🔝 TOPBAR
+----------------------------------------------------- */
+.topbar {
+    background-color: #F6F3FF;
+    font-size: 0.95rem;
+}
+
+/* -----------------------------------------------------
+   🦶 FOOTER (más elegante)
+----------------------------------------------------- */
+.footer-purple {
+    background-color: var(--mlf-primary-dark);
+    color: #fff;
+}
+
+.footer-purple p {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.social-footer-icons a {
+    color: #fff;
+    transition: .2s ease;
+}
+
+.social-footer-icons a:hover {
+    opacity: .8;
+    transform: scale(1.1);
+}
+
+/* -----------------------------------------------------
+   ✨ ANIMACIONES GLOBALES
+----------------------------------------------------- */
+.fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp .55s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+
+/* -----------------------------------------------------
+   📱 RESPONSIVE
+----------------------------------------------------- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
+
+/* =====================================================================
+   📝 ESTILOS PARA EL CONTENIDO DE NOTICIAS (TinyMCE frontend rendering)
+   Mantiene el estilo del editor y lo adapta a la vista pública.
+===================================================================== */
+
+.mlf-article-content {
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #2a2a2a;
+    max-width: 880px;
+    margin: 25px auto;
+    padding: 0 10px;
+}
+
+/* Párrafos */
+.mlf-article-content p {
+    margin-bottom: 1.4rem;
+}
+
+/* Títulos */
+.mlf-article-content h1,
+.mlf-article-content h2,
+.mlf-article-content h3,
+.mlf-article-content h4 {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2.2rem;
+    margin-bottom: 1rem;
+    color: #111;
+}
+
+.mlf-article-content h1 {
+    font-size: 2.1rem;
+}
+
+.mlf-article-content h2 {
+    font-size: 1.8rem;
+}
+
+.mlf-article-content h3 {
+    font-size: 1.5rem;
+}
+
+/* LISTAS */
+.mlf-article-content ul,
+.mlf-article-content ol {
+    margin: 1.4rem 0;
+    padding-left: 35px;
+}
+
+/* LINKS */
+.mlf-article-content a {
+    color: #7C3AED;
+    text-decoration: underline;
+}
+
+/* BLOCKQUOTE */
+.mlf-article-content blockquote {
+    border-left: 4px solid #7C3AED;
+    padding-left: 15px;
+    margin: 1.8rem 0;
+    background: #faf5ff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    color: #444;
+    font-style: italic;
+}
+
+/* ALERT BOX */
+.mlf-article-content .alert-box {
+    padding: 15px;
+    background: #ffeeba;
+    border-left: 5px solid #f0ad4e;
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+/* NOTE BOX */
+.mlf-article-content .note-box {
+    padding: 15px;
+    background: #e7f3ff;
+    border-left: 5px solid #1e90ff;
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+/* IMÁGENES */
+.mlf-article-content img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 25px 0;
+}
+
+/* Portada destacada */
+.mlf-article-content .highlight-cover {
+    border: 3px solid #7C3AED;
+    padding: 5px;
+    display: block;
+    margin: 25px auto;
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+/* TABLAS */
+.mlf-article-content table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+.mlf-article-content table td,
+.mlf-article-content table th {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.mlf-article-content hr {
+    margin: 2rem 0;
+    border-top: 1px solid #ccc;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .mlf-article-content {
+        font-size: 1rem;
+        line-height: 1.7;
+        padding: 0 5px;
+    }
+
+    .mlf-article-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .mlf-article-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .mlf-article-content h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* 🔥 Asegurar que el menú del usuario esté siempre encima */
+.user-dropdown,
+.navbar .dropdown-menu {
+    position: relative;
+    z-index: 9999 !important;
+}
