@@ -2,6 +2,24 @@
 
 @section('title', 'Generador de Códigos QR Institucionales - PGIQR')
 
+{{-- SECCIÓN DE ESTILOS MODULARES --}}
+@push('styles')
+    <style>
+        .input-url-personalizado {
+            padding: 0.75rem 1rem;
+            font-size: 1.05rem; /* Tamaño cómodo y legible para la URL real */
+            border-radius: 0.5rem;
+        }
+
+        /* Ajuste de escala exclusivo y elegante para el placeholder */
+        .input-url-personalizado::placeholder {
+            font-size: 0.88rem; /* Más pequeño, tipo texto secundario/muted */
+            letter-spacing: 0.3px;
+            opacity: 0.75;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid px-4 fade-up">
 
@@ -37,7 +55,7 @@
                             <label for="qr_url" class="form-label fw-bold text-secondary">
                                 <i class="fas fa-link me-2 text-primary"></i>1. Enlace del Formulario / URL
                             </label>
-                            <input type="url" id="qr_url" class="form-control form-control-lg"
+                            <input type="url" id="qr_url" class="form-control input-url-personalizado"
                                    placeholder="Pegue la URL del formulario de la convocatoria actual..." value="">
                             <small class="text-muted"><i class="fas fa-info-circle me-1 mt-2"></i> El código QR se actualizará dinámicamente al escribir o cambiar opciones.</small>
                         </div>
