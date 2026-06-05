@@ -7,7 +7,7 @@
     <!-- Token de seguridad requerido por Laravel para peticiones AJAX -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{ asset('assets/logo.jpg') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo-ti-qr.png') }}">
 
     <!-- METADATA INSTITUCIONAL -->
     <title>@yield('title', 'PGIQR – Plataforma de Gestión de Identidad y Operaciones QR')</title>
