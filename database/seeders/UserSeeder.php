@@ -14,13 +14,31 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Crear usuario administrador del Departamento de Informática
-        User::updateOrCreate(
-            ['email' => 'admin@pgiqr.test'], // Evita duplicados si se corre dos veces
-            [
-                'name' => 'Administrador Informática',
-                'password' => Hash::make('Abc1234'), // Contraseña segura de desarrollo
-            ]
-        );
+        // Limpiar usuarios viejos o de prueba
+        User::query()->truncate();
+
+        // 1. Cuenta de Soporte Técnico / TI
+        User::create([
+            'name' => 'Informática HMZ',
+            'email' => 'informatica@soluteza.com',
+            'password' => Hash::make('Z@catecas26'),
+            'role_slug' => 'informatica',
+        ]);
+
+        // 2. Cuenta de Dirección / Administración (Comparte accesos con TI)
+        User::create([
+            'name' => 'Administración General',
+            'email' => 'administracion@soluteza.com',
+            'password' => Hash::make('Z@catecas26'), // Usa la misma o tu variante segura
+            'role_slug' => 'administrador',
+        ]);
+
+        // 3. Cuenta de Operativa (Enseñanza / Capacitación)
+        User::create([
+            'name' => 'Enseñanza HMZ',
+            'email' => 'ensenanza@soluteza.com',
+            'password' => Hash::make('H@spital26'),
+            'role_slug' => 'ensenanza',
+        ]);
     }
 }
