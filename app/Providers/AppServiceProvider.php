@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // 1. Acceso técnico/infraestructura total (Informática y Administrador)
         Gate::define('access-full-ti', function (User $user) {
-            return in-array($user->role_slug, ['informatica', 'administrador']);
+            return in_array($user->role_slug, ['informatica', 'administrador']);
         });
 
         // 2. Acceso operativo exclusivo para capacitación
