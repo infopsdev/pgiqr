@@ -83,12 +83,16 @@
                                                     <option value="square" selected>Cuadrado (Estándar)</option>
                                                     <option value="dots">Puntos</option>
                                                     <option value="rounded">Líquido / Orgánico</option>
+                                                    <option value="extra-rounded">Extra Redondo</option>
+                                                    <option value="classy">Elegante</option>
+                                                    <option value="classy-rounded">Elegante Redondeado</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="shape_corners_ext" class="form-label small fw-bold text-muted">Esquinas (Externas)</label>
                                                 <select id="shape_corners_ext" class="form-select">
                                                     <option value="square" selected>Cuadrado</option>
+                                                    <option value="dot">Punto</option>
                                                     <option value="extra-rounded">Redondeado</option>
                                                 </select>
                                             </div>
