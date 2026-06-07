@@ -50,14 +50,80 @@
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body p-4">
 
-                        {{-- ENLACE PRINCIPAL --}}
+                        {{-- SECCIÓN CONTENEDORA DE PASO 1 --}}
                         <div class="mb-4">
-                            <label for="qr_url" class="form-label fw-bold text-secondary">
-                                <i class="fas fa-link me-2 text-primary"></i>1. Enlace del Formulario / URL
+                            <label class="form-label fw-bold text-secondary mb-3">
+                                <i class="fas fa-sliders-h me-2 text-primary"></i>1. Seleccione el Tipo de Contenido
                             </label>
-                            <input type="url" id="qr_url" class="form-control input-url-personalizado"
-                                   placeholder="Pegue la URL del formulario de la convocatoria actual..." value="">
-                            <small class="text-muted"><i class="fas fa-info-circle me-1 mt-2"></i> El código QR se actualizará dinámicamente al escribir o cambiar opciones.</small>
+
+                            {{-- PESTAÑAS CON ICONOS (NAV TABS CONDICIONALES) --}}
+                            <ul class="nav nav-tabs mb-4 border-bottom border-gray-200" id="qrTabs" role="tablist">
+                                {{-- Pestaña Enlace: Visible para TODOS --}}
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active fw-bold" id="tab-link-btn" data-bs-toggle="tab" data-bs-target="#panel-link" type="button" role="tab" data-type="link">
+                                        <i class="fa-solid fa-link me-1 text-primary"></i> Enlace
+                                    </button>
+                                </li>
+
+                                {{-- Pestañas Avanzadas: EXCLUSIVAS para TI / Administrador --}}
+                                @can('access-full-ti')
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link fw-bold" id="tab-location-btn" data-bs-toggle="tab" data-bs-target="#panel-location" type="button" role="tab" data-type="location">
+                                            <i class="fa-solid fa-location-dot me-1 text-danger"></i> Ubicación
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-video me-1"></i> Zoom</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-wifi me-1"></i> WiFi</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-id-card me-1"></i> V-card</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-calendar-days me-1"></i> Evento</button>
+                                    </li>
+                                @endcan
+                            </ul>
+
+                            {{-- CONTENIDO DINÁMICO DE LAS PESTAÑAS --}}
+                            <div class="tab-content bg-light p-3 border rounded shadow-sm mb-3" id="qrTabsContent">
+
+                                {{-- FORMULARIO I: ENLACE / URL (Compartido) --}}
+                                <div class="tab-pane fade show active" id="panel-link" role="tabpanel" aria-labelledby="tab-link-btn">
+                                    <div class="mb-2">
+                                        <label for="qr_url" class="form-label small fw-bold text-secondary">Enlace del Formulario / URL</label>
+                                        <input type="url" id="qr_url" class="form-control input-url-personalizado bg-white"
+                                               placeholder="Pegue la URL del formulario de la convocatoria actual (https://forms.gle/...)" value="">
+                                    </div>
+                                </div>
+
+                                {{-- FORMULARIO II: UBICACIÓN (Exclusivo TI / Administrador) --}}
+                                @can('access-full-ti')
+                                    <div class="tab-pane fade" id="panel-location" role="tabpanel" aria-labelledby="tab-location-btn">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <label for="qr_geo_address" class="form-label small fw-bold text-secondary">Sede / Dirección Descriptiva</label>
+                                                <input type="text" id="qr_geo_address" class="form-control bg-white" placeholder="Ej. Aula Magna - Planta Alta HMZ">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="qr_geo_lat" class="form-label small fw-bold text-muted">Latitud</label>
+                                                <input type="text" id="qr_geo_lat" class="form-control bg-white" placeholder="Ej. 22.7709">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="qr_geo_lng" class="form-label small fw-bold text-muted">Longitud</label>
+                                                <input type="text" id="qr_geo_lng" class="form-control bg-white" placeholder="Ej. -102.5832">
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 small text-muted mb-0">
+                                            <i class="fa-solid fa-info-circle text-danger me-1"></i> Al escanear, el smartphone abrirá la ubicación de forma nativa en Google Maps.
+                                        </p>
+                                    </div>
+                                @endcan
+
+                            </div>
+                            <small class="text-muted"><i class="fas fa-info-circle me-1 mt-2"></i> El código QR se actualizará dinámicamente al escribir o cambiar de pestaña.</small>
                         </div>
 
                         <hr class="text-muted my-4">
@@ -147,7 +213,7 @@
                              id="qr_canvas_wrapper"
                              style="width: 340px; height: 340px; min-height: 340px;">
 
-                            {{-- FUSIÓN: Reincorporamos el Overlay HTML para garantizar la estética perfecta en la vista previa --}}
+                            {{-- Contenedor del Isotipo Circular --}}
                             <div id="qr_logo_overlay" class="position-absolute d-none"
                                  style="z-index: 10; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 50%; border: 3px solid #ffffff; background-color: #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">
                                 <img src="" alt="Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
@@ -156,7 +222,7 @@
                             {{-- Marcador temporal --}}
                             <div id="qr_placeholder" class="text-center">
                                 <i class="fa-solid fa-qrcode text-gray-300 mb-2" style="font-size: 5rem;"></i>
-                                <p class="text-muted small mb-0">Esperando URL del Formulario...</p>
+                                <p class="text-muted small mb-0">Esperando Datos de Configuración...</p>
                             </div>
                         </div>
                     </div>
@@ -182,7 +248,14 @@
         const LOGO_ASSET_URL = "{{ asset('assets/img/logo-ti-qr.png') }}" + CACHE_BUSTER;
 
         document.addEventListener('DOMContentLoaded', function () {
+            // Selectores de Enlace
             const urlInput = document.getElementById('qr_url');
+
+            // Selectores de Ubicación (Nuevos)
+            const geoLat = document.getElementById('qr_geo_lat');
+            const geoLng = document.getElementById('qr_geo_lng');
+            const geoAddress = document.getElementById('qr_geo_address');
+
             const canvasWrapper = document.getElementById('qr_canvas_wrapper');
             const btnDownload = document.getElementById('btn_download_qr');
             const placeholder = document.getElementById('qr_placeholder');
@@ -197,9 +270,21 @@
             let LOGO_DINA_DATA = LOGO_ASSET_URL;
             let qrCodeEngine = null;
 
+            // Variable de estado para controlar la pestaña activa (Por defecto: link)
+            let currentTab = 'link';
+
             if (overlayImg) {
                 overlayImg.src = LOGO_ASSET_URL;
             }
+
+            // Cambiar de modo de procesamiento al dar clic en las pestañas de Bootstrap
+            const tabButtons = document.querySelectorAll('#qrTabs button[data-bs-toggle="tab"]');
+            tabButtons.forEach(button => {
+                button.addEventListener('shown.bs.tab', function (e) {
+                    currentTab = e.target.getAttribute('data-type');
+                    generateQR(); // Forzar actualización de matriz inmediata al saltar de módulo
+                });
+            });
 
             function initQREngine(textData) {
                 return new QRCodeStyling({
@@ -220,9 +305,6 @@
                         color: "#ffffff",
                     },
                     imageOptions: {
-                        // Explicación: No pasamos la imagen aquí para la vista previa,
-                        // dejando que el overlay HTML renderice de forma impecable y veloz.
-                        // Sin embargo, dejamos activo el espacio en blanco intermedio (clear)
                         hideBackgroundDots: true,
                         imageSize: 0.18,
                         margin: 0
@@ -239,12 +321,33 @@
             }
 
             function generateQR() {
-                const urlValue = urlInput.value.trim();
+                let textData = "";
 
-                if (!urlValue) {
+                // PARSEO EN CALIENTE DEPENDIENDO DEL MÓDULO ACTIVO
+                if (currentTab === 'link') {
+                    textData = urlInput ? urlInput.value.trim() : "";
+                }
+                else if (currentTab === 'location') {
+                    const lat = geoLat ? geoLat.value.trim() : "";
+                    const lng = geoLng ? geoLng.value.trim() : "";
+
+                    if (lat && lng) {
+                        // Estándar internacional QR: geo:lat,lng
+                        textData = `geo:${lat},${lng}`;
+                    }
+                }
+
+                // Si la pestaña actual no tiene datos suficientes, limpiar canvas y restaurar placeholder
+                if (!textData) {
                     canvasWrapper.innerHTML = '';
                     canvasWrapper.appendChild(overlay);
-                    if (placeholder) canvasWrapper.appendChild(placeholder);
+                    if (placeholder) {
+                        // Actualizar texto del marcador según rol/pestaña
+                        placeholder.querySelector('p').textContent = currentTab === 'link'
+                            ? 'Esperando URL del Formulario...'
+                            : 'Esperando Coordenadas de Ubicación...';
+                        canvasWrapper.appendChild(placeholder);
+                    }
                     overlay.classList.add('d-none');
                     btnDownload.disabled = true;
                     return;
@@ -255,10 +358,9 @@
                 canvasWrapper.appendChild(overlay);
                 overlay.classList.remove('d-none');
 
-                qrCodeEngine = initQREngine(urlValue);
+                qrCodeEngine = initQREngine(textData);
 
-                // Forzar un búfer transparente invisible para que la librería limpie el centro
-                // de los módulos QR sin pintar el logo horrendo directamente en la previsualización.
+                // Forzar búfer transparente para limpiar el centro geométrico
                 qrCodeEngine.update({
                     image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'></svg>"
                 });
@@ -282,12 +384,16 @@
                 });
             }
 
-            urlInput.addEventListener('input', generateQR);
+            // Listeners reactivos unificados para refresco inmediato
+            if (urlInput) urlInput.addEventListener('input', generateQR);
+            if (geoLat) geoLat.addEventListener('input', generateQR);
+            if (geoLng) geoLng.addEventListener('input', generateQR);
+
             shapeDots.addEventListener('change', generateQR);
             shapeCornersExt.addEventListener('change', generateQR);
             shapeCornersInt.addEventListener('change', generateQR);
 
-            // FUSIÓN DEL MOTOR DE DESCARGA (Renderizado forzado del círculo perfecto)
+            // MOTOR DE DESCARGA CON MÁSCARA CIRCULAR ESTILO STARBUCKS
             btnDownload.addEventListener('click', function () {
                 const qrCanvas = canvasWrapper.querySelector('canvas');
                 if (qrCanvas) {
@@ -296,21 +402,21 @@
                     tempCanvas.height = qrCanvas.height;
                     const ctx = tempCanvas.getContext('2d');
 
-                    // 1. Dibujar la matriz geométrica del QR limpia
+                    // 1. Clonar la matriz del QR
                     ctx.drawImage(qrCanvas, 0, 0);
 
-                    // 2. Pintar el escudo contenedor blanco (Estilo Starbucks/WhatsApp) en el Canvas de salida
+                    // 2. Coordenadas y radios para el escudo blanco central
                     const centerX = qrCanvas.width / 2;
                     const centerY = qrCanvas.height / 2;
-                    const outerRadius = 28; // Cobertura total del área despejada
-                    const logoRadius = 25;  // Radio del Isotipo recortado
+                    const outerRadius = 28;
+                    const logoRadius = 25;
 
                     ctx.fillStyle = "#ffffff";
                     ctx.beginPath();
                     ctx.arc(centerX, centerY, outerRadius, 0, 2 * Math.PI);
                     ctx.fill();
 
-                    // 3. Procesar y recortar el logo en un círculo perfecto dentro del archivo descargable
+                    // 3. Recorte circular e inyección del logo
                     const downloadImg = new Image();
                     downloadImg.src = LOGO_DINA_DATA;
                     downloadImg.crossOrigin = "anonymous";
@@ -319,23 +425,23 @@
                         ctx.save();
                         ctx.beginPath();
                         ctx.arc(centerX, centerY, logoRadius, 0, 2 * Math.PI);
-                        ctx.clip(); // Aplicar máscara esférica matemática
+                        ctx.clip();
 
                         const logoSize = logoRadius * 2;
-                        // Dibujar la imagen centrada y escalada proporcionalmente
                         ctx.drawImage(downloadImg, centerX - logoRadius, centerY - logoRadius, logoSize, logoSize);
                         ctx.restore();
 
-                        // 4. Ejecutar la descarga del binario final procesado
+                        // 4. Disparar el flujo de descarga binaria
                         const downloadLink = document.createElement('a');
                         downloadLink.href = tempCanvas.toDataURL("image/png");
-                        downloadLink.download = `QR_Estilizado_HMZ_${Date.now()}.png`;
+                        downloadLink.download = `QR_Premium_TI_${Date.now()}.png`;
                         downloadLink.click();
                     };
                 }
             });
 
-            if (urlInput.value.trim()) {
+            // Disparar generación automática inicial si el input cuenta con valor por defecto
+            if (urlInput && urlInput.value.trim()) {
                 generateQR();
             }
         });
