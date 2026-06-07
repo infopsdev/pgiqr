@@ -73,7 +73,9 @@
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-video me-1"></i> Zoom</button>
+                                        <button class="nav-link fw-bold" id="tab-zoom-btn" data-bs-toggle="tab" data-bs-target="#panel-zoom" type="button" role="tab" data-type="zoom">
+                                            <i class="fa-solid fa-video me-1 text-info"></i> Zoom
+                                        </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link text-muted" disabled><i class="fa-solid fa-wifi me-1"></i> WiFi</button>
@@ -118,6 +120,29 @@
                                         </div>
                                         <p class="mt-2 small text-muted mb-0">
                                             <i class="fa-solid fa-info-circle text-danger me-1"></i> Al escanear, el smartphone abrirá la ubicación de forma nativa en Google Maps.
+                                        </p>
+                                    </div>
+                                @endcan
+
+                                {{-- FORMULARIO III: SESIONES ZOOM (Exclusivo TI / Administrador) --}}
+                                @can('access-full-ti')
+                                    <div class="tab-pane fade" id="panel-zoom" role="tabpanel" aria-labelledby="tab-zoom-btn">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="qr_zoom_id" class="form-label small fw-bold text-secondary">ID de la Reunión *</label>
+                                                <input type="text" id="qr_zoom_id" class="form-control bg-white" placeholder="Ej. 985 1774 4535">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="qr_zoom_pwd" class="form-label small fw-bold text-secondary">Código de Acceso / Password *</label>
+                                                <input type="text" id="qr_zoom_pwd" class="form-control bg-white" placeholder="Ej. abc123">
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="qr_zoom_topic" class="form-label small fw-bold text-muted">Tema de la Videoconferencia (Opcional)</label>
+                                                <input type="text" id="qr_zoom_topic" class="form-control bg-white" placeholder="Ej. Capacitación SIGHO Consulta Externa">
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 small text-muted mb-0">
+                                            <i class="fa-solid fa-circle-info text-info me-1"></i> El QR empaquetará las credenciales de forma segura para saltarse la pantalla de logueo manual de Zoom.
                                         </p>
                                     </div>
                                 @endcan
@@ -256,6 +281,11 @@
             const geoLng = document.getElementById('qr_geo_lng');
             const geoAddress = document.getElementById('qr_geo_address');
 
+            // Selectores de Zoom (Nuevos)
+            const zoomId = document.getElementById('qr_zoom_id');
+            const zoomPwd = document.getElementById('qr_zoom_pwd');
+            const zoomTopic = document.getElementById('qr_zoom_topic');
+
             const canvasWrapper = document.getElementById('qr_canvas_wrapper');
             const btnDownload = document.getElementById('btn_download_qr');
             const placeholder = document.getElementById('qr_placeholder');
@@ -332,8 +362,17 @@
                     const lng = geoLng ? geoLng.value.trim() : "";
 
                     if (lat && lng) {
-                        // Estándar internacional QR: geo:lat,lng
                         textData = `geo:${lat},${lng}`;
+                    }
+                }
+                else if (currentTab === 'zoom') {
+                    // Eliminar espacios en blanco que el usuario suele meter en el ID de Zoom
+                    const idClean = zoomId ? zoomId.value.replace(/\s+/g, '') : "";
+                    const pwdClean = zoomPwd ? zoomPwd.value.trim() : "";
+
+                    if (idClean && pwdClean) {
+                        // Estructura oficial de Deep Linking de Zoom
+                        textData = `https://zoom.us/j/${idClean}?pwd=${pwdClean}`;
                     }
                 }
 
@@ -342,10 +381,11 @@
                     canvasWrapper.innerHTML = '';
                     canvasWrapper.appendChild(overlay);
                     if (placeholder) {
-                        // Actualizar texto del marcador según rol/pestaña
-                        placeholder.querySelector('p').textContent = currentTab === 'link'
-                            ? 'Esperando URL del Formulario...'
-                            : 'Esperando Coordenadas de Ubicación...';
+                        // Actualizar texto dinámico del marcador
+                        if (currentTab === 'link') placeholder.querySelector('p').textContent = 'Esperando URL del Formulario...';
+                        else if (currentTab === 'location') placeholder.querySelector('p').textContent = 'Esperando Coordenadas...';
+                        else if (currentTab === 'zoom') placeholder.querySelector('p').textContent = 'Esperando Credenciales de Zoom...';
+
                         canvasWrapper.appendChild(placeholder);
                     }
                     overlay.classList.add('d-none');
@@ -388,6 +428,7 @@
             if (urlInput) urlInput.addEventListener('input', generateQR);
             if (geoLat) geoLat.addEventListener('input', generateQR);
             if (geoLng) geoLng.addEventListener('input', generateQR);
+            if (zoomId) zoomId.addEventListener('input', generateQR);
 
             shapeDots.addEventListener('change', generateQR);
             shapeCornersExt.addEventListener('change', generateQR);
