@@ -11,39 +11,12 @@
 
         <div class="collapse navbar-collapse" id="mainNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#"><i class="fa-solid fa-chart-pie me-1"></i> Dashboard</a>
-                </li>
-
-                {{-- Bloque protegido: Solo visible si el usuario inició sesión --}}
+                {{-- MÓDULO ÚNICO UNIFICADO: Accesible para todos los usuarios logueados --}}
                 @auth
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="qrDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-qrcode me-1"></i> Generadores QR
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('tools/qr*') ? 'active fw-bold text-primary' : '' }}" href="{{ route('tools.qr') }}">
+                            <i class="fa-solid fa-qrcode me-1"></i> Generar Código QR
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-
-                            {{-- MÓDULO COMPARTIDO: Lo ve tanto Enseñanza como Informática/Administrador --}}
-                            @if(Auth::user()->can('access-full-ti') || Auth::user()->can('access-ensenanza'))
-                                <li>
-                                    <a class="dropdown-item text-primary fw-bold" href="{{ route('tools.qr') }}">
-                                        <i class="fa-solid fa-sliders me-2"></i> Enlace Formulario / URL
-                                    </a>
-                                </li>
-                            @endif
-
-                            {{-- SECCIÓN EXCLUSIVA DE INFRAESTRUCTURA: Oculta por completo para Enseñanza --}}
-                            @can('access-full-ti')
-                                <li><hr class="dropdown-divider border-secondary"></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-wifi me-2"></i> Conectividad Wi-Fi</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-video me-2"></i> Zoom</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-location-dot me-2"></i> Ubicación</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-calendar-days me-2"></i> Evento</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-id-card me-2"></i> Tarjeta V-Card</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-comment-sms me-2"></i> Mensaje SMS</a></li>
-                            @endcan
-
-                        </ul>
                     </li>
                 @endauth
             </ul>
