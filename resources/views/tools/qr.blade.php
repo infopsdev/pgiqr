@@ -78,7 +78,9 @@
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link text-muted" disabled><i class="fa-solid fa-wifi me-1"></i> WiFi</button>
+                                        <button class="nav-link fw-bold" id="tab-wifi-btn" data-bs-toggle="tab" data-bs-target="#panel-wifi" type="button" role="tab" data-type="wifi">
+                                            <i class="fa-solid fa-wifi me-1 text-warning"></i> WiFi
+                                        </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link text-muted" disabled><i class="fa-solid fa-id-card me-1"></i> V-card</button>
@@ -143,6 +145,39 @@
                                         </div>
                                         <p class="mt-2 small text-muted mb-0">
                                             <i class="fa-solid fa-circle-info text-info me-1"></i> El QR empaquetará las credenciales de forma segura para saltarse la pantalla de logueo manual de Zoom.
+                                        </p>
+                                    </div>
+                                @endcan
+
+                                {{-- FORMULARIO IV: REDES WIFi (Exclusivo TI / Administrador) --}}
+                                @can('access-full-ti')
+                                    <div class="tab-pane fade" id="panel-wifi" role="tabpanel" aria-labelledby="tab-wifi-btn">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="qr_wifi_ssid" class="form-label small fw-bold text-secondary">Nombre de la Red (SSID) *</label>
+                                                <input type="text" id="qr_wifi_ssid" class="form-control bg-white" placeholder="Ej. HMZ_Medicos_Alta">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="qr_wifi_pwd" class="form-label small fw-bold text-secondary">Contraseña / Password</label>
+                                                <input type="text" id="qr_wifi_pwd" class="form-control bg-white" placeholder="Ej. SeguridadHMZ2026">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="qr_wifi_type" class="form-label small fw-bold text-muted">Seguridad (Cifrado)</label>
+                                                <select id="qr_wifi_type" class="form-select bg-white">
+                                                    <option value="WPA" selected>WPA / WPA2 / WPA3 (Estándar)</option>
+                                                    <option value="WEP">WEP (Antiguo)</option>
+                                                    <option value="nopass">Sin Contraseña / Abierta</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center pt-4">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="qr_wifi_hidden" value="true">
+                                                    <label class="form-check-label small fw-bold text-muted" for="qr_wifi_hidden">¿Es una red oculta?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mt-2 small text-muted mb-0">
+                                            <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i> Respete las mayúsculas y minúsculas exactas configuradas en el Access Point o Firewall Fortigate.
                                         </p>
                                     </div>
                                 @endcan
@@ -286,6 +321,12 @@
             const zoomPwd = document.getElementById('qr_zoom_pwd');
             const zoomTopic = document.getElementById('qr_zoom_topic');
 
+            // Selectores de WiFi (Nuevos)
+            const wifiSsid = document.getElementById('qr_wifi_ssid');
+            const wifiPwd = document.getElementById('qr_wifi_pwd');
+            const wifiType = document.getElementById('qr_wifi_type');
+            const wifiHidden = document.getElementById('qr_wifi_hidden');
+
             const canvasWrapper = document.getElementById('qr_canvas_wrapper');
             const btnDownload = document.getElementById('btn_download_qr');
             const placeholder = document.getElementById('qr_placeholder');
@@ -375,6 +416,22 @@
                         textData = `https://zoom.us/j/${idClean}?pwd=${pwdClean}`;
                     }
                 }
+                else if (currentTab === 'wifi') {
+                    const ssid = wifiSsid ? wifiSsid.value.trim() : "";
+                    const pwd = wifiPwd ? wifiPwd.value.trim() : "";
+                    const type = wifiType ? wifiType.value : "WPA";
+                    const isHidden = (wifiHidden && wifiHidden.checked) ? "true" : "false";
+
+                    // Regla: Para generar el QR se requiere mínimo el SSID corporativo
+                    if (ssid) {
+                        // Estándar estricto: Si es abierta (nopass), omitimos el parámetro P o lo mandamos vacío
+                        if (type === 'nopass') {
+                            textData = `WIFI:S:${ssid};T:nopass;H:${isHidden};;`;
+                        } else {
+                            textData = `WIFI:S:${ssid};T:${type};P:${pwd};H:${isHidden};;`;
+                        }
+                    }
+                }
 
                 // Si la pestaña actual no tiene datos suficientes, limpiar canvas y restaurar placeholder
                 if (!textData) {
@@ -385,6 +442,7 @@
                         if (currentTab === 'link') placeholder.querySelector('p').textContent = 'Esperando URL del Formulario...';
                         else if (currentTab === 'location') placeholder.querySelector('p').textContent = 'Esperando Coordenadas...';
                         else if (currentTab === 'zoom') placeholder.querySelector('p').textContent = 'Esperando Credenciales de Zoom...';
+                        else if (currentTab === 'wifi') placeholder.querySelector('p').textContent = 'Esperando Nombre de Red (SSID)...';
 
                         canvasWrapper.appendChild(placeholder);
                     }
@@ -429,6 +487,11 @@
             if (geoLat) geoLat.addEventListener('input', generateQR);
             if (geoLng) geoLng.addEventListener('input', generateQR);
             if (zoomId) zoomId.addEventListener('input', generateQR);
+
+            if (wifiSsid) wifiSsid.addEventListener('input', generateQR);
+            if (wifiPwd) wifiPwd.addEventListener('input', generateQR);
+            if (wifiType) wifiType.addEventListener('change', generateQR);
+            if (wifiHidden) wifiHidden.addEventListener('change', generateQR);
 
             shapeDots.addEventListener('change', generateQR);
             shapeCornersExt.addEventListener('change', generateQR);
